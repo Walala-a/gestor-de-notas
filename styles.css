@@ -1,0 +1,226 @@
+:root {
+    --primary: #2C3E50; 
+    --secondary: #3498DB; 
+    --accent: #E74C3C;
+    --bg-color: #F8F9FA; 
+    --panel-bg: #FFFFFF; 
+    --text: #333333;
+    --border: #E0E0E0; 
+    --input-bg: #FFFFFF; 
+    --result-text: #2C3E50;
+}
+
+body.dark-mode {
+    --primary: #1F2937; 
+    --secondary: #3B82F6; 
+    --accent: #EF4444;
+    --bg-color: #111827; 
+    --panel-bg: #1F2937; 
+    --text: #F3F4F6;
+    --border: #374151; 
+    --input-bg: #374151; 
+    --result-text: #F3F4F6;
+}
+
+* { 
+    box-sizing: border-box; 
+    margin: 0; 
+    padding: 0; 
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
+}
+
+body { 
+    display: flex; 
+    height: 100vh; 
+    background-color: var(--bg-color); 
+    color: var(--text); 
+    overflow: hidden; 
+    transition: background-color 0.3s, color 0.3s; 
+}
+
+/* =========================================
+   PANTALLA DE AUTENTICACIÓN KAWAII
+========================================= */
+.auth-wrapper { 
+    display: flex; 
+    justify-content: center; 
+    align-items: center; 
+    height: 100vh; 
+    width: 100vw; 
+    background: linear-gradient(135deg, #ff9a9e 0%, #fecfef 99%, #fecfef 100%);
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 9999;
+}
+
+body.dark-mode .auth-wrapper {
+    background: linear-gradient(135deg, #2b1055 0%, #7597de 100%);
+}
+
+.auth-card { 
+    background: rgba(255, 255, 255, 0.9); 
+    padding: 40px; 
+    border-radius: 25px; 
+    box-shadow: 0 10px 30px rgba(255, 154, 158, 0.3); 
+    width: 90%; 
+    max-width: 350px; 
+    text-align: center; 
+    border: 3px solid rgba(255, 255, 255, 0.5);
+    backdrop-filter: blur(5px);
+}
+
+body.dark-mode .auth-card {
+    background: rgba(31, 41, 55, 0.9);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+    border-color: #374151;
+}
+
+.auth-card h2 { margin-bottom: 5px; color: #ff7e84; font-size: 26px; }
+body.dark-mode .auth-card h2 { color: #a2b9e6; }
+.auth-card p { margin-bottom: 25px; color: #7F8C8D; font-size: 14px; font-weight: 500; }
+
+.auth-card input { 
+    width: 100%; 
+    margin-bottom: 15px; 
+    padding: 14px; 
+    font-size: 15px; 
+    border-radius: 18px;
+    border: 2px solid var(--border);
+    background-color: var(--input-bg);
+    color: var(--text);
+    outline: none;
+    transition: 0.3s;
+}
+
+.auth-card input:focus { border-color: #ff9a9e; }
+body.dark-mode .auth-card input:focus { border-color: #7597de; }
+
+.auth-card button { 
+    width: 100%; 
+    margin-bottom: 12px; 
+    padding: 14px; 
+    font-size: 16px; 
+    font-weight: bold;
+    border-radius: 20px; 
+    cursor: pointer;
+    transition: transform 0.2s, background 0.3s, box-shadow 0.2s;
+}
+
+.auth-card button:hover { transform: translateY(-2px); }
+
+.auth-btn-primary { 
+    background-color: #ff9a9e; 
+    color: white; 
+    border: none; 
+    box-shadow: 0 4px 15px rgba(255, 154, 158, 0.4);
+}
+.auth-btn-primary:hover { background-color: #ff7e84; }
+
+body.dark-mode .auth-btn-primary { background-color: #7597de; box-shadow: 0 4px 15px rgba(117, 151, 222, 0.4); }
+body.dark-mode .auth-btn-primary:hover { background-color: #5c7cbf; }
+
+.auth-btn-secondary { 
+    background-color: transparent; 
+    color: #ff9a9e; 
+    border: 2px solid #ff9a9e; 
+}
+.auth-btn-secondary:hover { background-color: #fff0f1; }
+
+body.dark-mode .auth-btn-secondary { color: #a2b9e6; border-color: #7597de; }
+body.dark-mode .auth-btn-secondary:hover { background-color: rgba(117, 151, 222, 0.1); }
+
+.error-msg { color: #E74C3C; font-size: 12px; margin-top: 10px; min-height: 15px; }
+
+
+/* =========================================
+   SIDEBAR (MENÚ LATERAL)
+========================================= */
+.sidebar { 
+    width: 280px; 
+    background-color: var(--primary); 
+    color: white; 
+    display: flex; 
+    flex-direction: column; 
+    transition: transform 0.3s ease, background-color 0.3s; 
+    z-index: 1000; 
+}
+.sidebar.closed { transform: translateX(-100%); position: absolute; height: 100%; }
+.sidebar-header, .sidebar-footer { padding: 20px; }
+.sidebar-header { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(255,255,255,0.1); }
+.sidebar-content { flex: 1; overflow-y: auto; padding: 20px; }
+.subjects-list { margin-top: 20px; display: flex; flex-direction: column; gap: 10px; }
+.subject-item { background: rgba(255,255,255,0.1); padding: 10px; border-radius: 5px; cursor: pointer; transition: background 0.2s; }
+.subject-item:hover, .subject-item.active { background: var(--secondary); }
+
+/* =========================================
+   BOTONES GENERALES
+========================================= */
+button { cursor: pointer; border: none; border-radius: 5px; font-size: 14px; padding: 10px 15px; transition: background 0.2s; }
+.primary-btn { background-color: var(--secondary); color: white; width: 100%; }
+.primary-btn:hover { background-color: #2980B9; }
+.secondary-btn { background-color: rgba(255,255,255,0.2); color: white; width: 100%; margin-bottom: 10px; }
+.secondary-btn:hover { background-color: rgba(255,255,255,0.3); }
+.icon-btn { background: none; color: inherit; font-size: 24px; padding: 0 10px; }
+.action-btn { font-size: 20px; padding: 5px; border-radius: 5px; }
+.action-btn:hover { background-color: rgba(127, 140, 141, 0.2); }
+.add-item-btn { background: var(--bg-color); color: var(--text); width: 100%; margin-top: 10px; border: 1px dashed var(--border); }
+.add-item-btn:hover { background: var(--border); }
+
+
+/* =========================================
+   CONTENIDO PRINCIPAL
+========================================= */
+.main-content { flex: 1; display: flex; flex-direction: column; overflow-y: auto; }
+header { background: var(--panel-bg); padding: 20px; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 2px 5px rgba(0,0,0,0.05); }
+.calculator-panel { padding: 30px; max-width: 1200px; margin: 0 auto; width: 100%; }
+.hidden { display: none !important; }
+
+/* PANEL DE RESULTADOS */
+.results-panel { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px; margin-bottom: 30px; }
+.result-card { background: var(--panel-bg); padding: 20px; border-radius: 10px; box-shadow: 0 4px 6px rgba(0,0,0,0.05); text-align: center; }
+.result-card h3 { font-size: 14px; color: #7F8C8D; margin-bottom: 10px; }
+.result-card p { font-size: 32px; font-weight: bold; color: var(--result-text); }
+.text-pass { color: #27AE60 !important; } 
+.text-fail { color: #E74C3C !important; }
+.input-pass { color: #27AE60 !important; font-weight: bold; } 
+.input-fail { color: #E74C3C !important; font-weight: bold; }
+
+/* BARRA DE CONFIGURACIÓN Y TOGGLE */
+.config-bar { display: flex; gap: 20px; margin-bottom: 20px; background: var(--panel-bg); padding: 15px; border-radius: 10px; align-items: center; }
+.switch-container { display: flex; align-items: center; gap: 10px; font-weight: bold; }
+.switch { position: relative; display: inline-block; width: 50px; height: 24px; }
+.switch input { opacity: 0; width: 0; height: 0; }
+.slider { position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0; background-color: #ccc; transition: .4s; }
+.slider:before { position: absolute; content: ""; height: 16px; width: 16px; left: 4px; bottom: 4px; background-color: white; transition: .4s; }
+input:checked + .slider { background-color: var(--secondary); }
+input:checked + .slider:before { transform: translateX(26px); }
+.slider.round { border-radius: 24px; } 
+.slider.round:before { border-radius: 50%; }
+
+/* INPUTS DE NOTAS Y CONFIGURACIONES */
+input { background-color: var(--input-bg); color: var(--text); border: 1px solid var(--border); border-radius: 4px; padding: 8px; }
+.weight-input { width: 60px; text-align: center; }
+.count-input { width: 50px; text-align: center; }
+
+/* GRILLA DE MÓDULOS (Teoría / Laboratorio) */
+.grades-grid { display: flex; gap: 20px; flex-wrap: wrap; }
+.module { flex: 1; min-width: 350px; background: var(--panel-bg); padding: 20px; border-radius: 10px; box-shadow: 0 4px 6px rgba(0,0,0,0.05); }
+.module h2 { margin-bottom: 5px; font-size: 20px; color: var(--primary); }
+.module-subtitle { font-size: 14px; color: #7F8C8D; font-weight: bold; margin-bottom: 10px;}
+
+.sub-module { border-top: 2px solid var(--bg-color); margin-top: 15px; padding-top: 15px; }
+.sub-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; }
+.sub-header h3 { font-size: 16px; color: var(--text); }
+.sub-header-controls { display: flex; gap: 15px; align-items: center; font-size: 13px; color: #7F8C8D;}
+
+.evaluation-row { display: flex; gap: 10px; margin-bottom: 8px; align-items: center; }
+.evaluation-row input[type="text"] { flex: 2; }
+.evaluation-row input[type="number"] { flex: 1; min-width: 70px; }
+.delete-btn { background: var(--accent); color: white; padding: 8px; width: 35px; border-radius: 4px; }
+.delete-btn:hover { background: #C0392B; }
+
+/* DISEÑO RESPONSIVO (Móviles) */
+@media (max-width: 768px) { 
+    .sidebar { position: absolute; height: 100%; } 
+}

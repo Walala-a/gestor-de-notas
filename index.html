@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestor de Notas Universitarias</title>
+    <link rel="stylesheet" href="styles.css">
+    
+    <!-- LIBRERÍAS DE FIREBASE (¡Esto es lo que evita el error!) -->
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
+</head>
+<body>
+    <!-- Pantalla de Inicio de Sesión Kawaii -->
+    <div id="auth-container" class="auth-wrapper">
+        <div class="auth-card">
+            <h2>🌸 Mis Notas 🌸</h2>
+            <p>¡Holi! Inicia sesión para guardar tus notitas en la nube ✨</p>
+            <input type="email" id="email-input" placeholder="Correo electrónico 💌">
+            <input type="password" id="password-input" placeholder="Contraseña 🔒">
+            <button id="login-btn" class="auth-btn-primary">Iniciar Sesión</button>
+            <button id="register-btn" class="auth-btn-secondary">Crear cuenta nueva</button>
+            <p id="auth-error" class="error-msg"></p>
+        </div>
+    </div>
+
+    <!-- Aplicación Principal -->
+    <div id="app-container" class="hidden" style="display: flex; height: 100vh; width: 100%;">
+        <nav class="sidebar" id="sidebar">
+            <div class="sidebar-header">
+                <h2>Mis Ramos</h2>
+                <button id="close-btn" class="icon-btn">&times;</button>
+            </div>
+            <div class="sidebar-content">
+                <div class="actions">
+                    <button id="add-subject-btn" class="primary-btn">+ Nuevo Ramo</button>
+                </div>
+                <div id="subjects-list" class="subjects-list"></div>
+            </div>
+            <div class="sidebar-footer">
+                <p id="user-email" style="font-size: 12px; margin-bottom: 10px; word-break: break-all;"></p>
+                <button id="logout-btn" class="secondary-btn" style="background-color: var(--accent);">Cerrar Sesión</button>
+            </div>
+        </nav>
+
+        <main class="main-content">
+            <header>
+                <div style="display: flex; align-items: center; gap: 15px; flex-wrap: wrap;">
+                    <button id="menu-btn" class="icon-btn">☰</button>
+                    <h1 id="current-subject-title">Selecciona un ramo</h1>
+                    <div id="subject-actions" class="hidden" style="display: flex; gap: 5px;">
+                        <button id="edit-subject-btn" class="icon-btn action-btn" title="Editar Ramo">✏️</button>
+                        <button id="delete-subject-btn" class="icon-btn action-btn" title="Eliminar Ramo">🗑️</button>
+                    </div>
+                </div>
+                <button id="theme-btn" class="icon-btn theme-toggle">🌙</button>
+            </header>
+
+            <div id="calculator-panel" class="calculator-panel hidden">
+                <section class="results-panel">
+                    <div class="result-card"><h3>Promedio Actual</h3><p id="current-avg">--</p></div>
+                    <div class="result-card highlight"><h3>Nota Necesaria Restante</h3><p id="needed-grade">--</p></div>
+                </section>
+
+                <div class="config-bar">
+                    <label class="switch-container">
+                        <span>Incluye Laboratorio</span>
+                        <label class="switch"><input type="checkbox" id="lab-toggle"><span class="slider round"></span></label>
+                    </label>
+                    <div id="lab-weight-container" class="hidden">
+                        <label>Ponderación Total Lab (%): <input type="number" id="lab-weight-input" min="0" max="100" class="weight-input"></label>
+                    </div>
+                </div>
+
+                <div class="grades-grid">
+                    <div class="module theory-module">
+                        <h2>Teoría</h2>
+                        <div class="sub-module">
+                            <div class="sub-header"><h3>Certámenes</h3><div class="sub-header-controls"><label>Cant: <input type="number" id="theory-cert-count" class="count-input" min="0"></label></div></div>
+                            <div id="theory-cert-items" class="items-list"></div>
+                        </div>
+                        <div class="sub-module">
+                            <div class="sub-header"><h3>Controles</h3><div class="sub-header-controls"><label>Cant: <input type="number" id="theory-ctrl-count" class="count-input" min="0"></label><label>Peso (%): <input type="number" id="theory-ctrl-weight" class="weight-input"></label></div></div>
+                            <p class="module-subtitle">Promedio Controles: <span id="theory-ctrl-avg">--</span></p>
+                            <div id="theory-ctrl-items" class="items-list"></div>
+                        </div>
+                    </div>
+
+                    <div id="lab-module" class="module lab-module hidden">
+                        <div class="sub-header"><h2>Laboratorio</h2><p class="module-subtitle">Promedio Lab: <span id="lab-current-avg">--</span></p></div>
+                        <div class="sub-module">
+                            <div class="sub-header"><h3>Certámenes Lab</h3><div class="sub-header-controls"><label>Cant: <input type="number" id="lab-cert-count" class="count-input" min="0"></label></div></div>
+                            <div id="lab-cert-items" class="items-list"></div>
+                        </div>
+                        <div class="sub-module">
+                            <div class="sub-header"><h3>Controles Lab</h3><div class="sub-header-controls"><label>Cant: <input type="number" id="lab-ctrl-count" class="count-input" min="0"></label><label>Peso (%): <input type="number" id="lab-ctrl-weight" class="weight-input"></label></div></div>
+                            <p class="module-subtitle">Promedio Cont. Lab: <span id="lab-ctrl-avg">--</span></p>
+                            <div id="lab-ctrl-items" class="items-list"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+    
+    <!-- TU CÓDIGO SE CARGA AL FINAL -->
+    <script src="app.js"></script>
+</body>
+</html>
