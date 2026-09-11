@@ -18,6 +18,11 @@ let appData = { subjects: {} };
 let currentSubjectId = null;
 let currentUser = null;
 
+// === EASTER EGG (RICKROLL) ===
+document.getElementById('easter-egg-btn').addEventListener('click', () => {
+    window.open('https://www.youtube.com/watch?v=dQw4w9WgXcQ', '_blank');
+});
+
 // TEMA OSCURO
 const themeBtn = document.getElementById('theme-btn');
 if (localStorage.getItem('theme') === 'dark') { document.body.classList.add('dark-mode'); themeBtn.textContent = '☀️'; }
@@ -26,6 +31,7 @@ themeBtn.addEventListener('click', () => {
     const isDark = document.body.classList.contains('dark-mode');
     themeBtn.textContent = isDark ? '☀️' : '🌙';
     localStorage.setItem('theme', isDark ? 'dark' : 'light');
+    if (currentSubjectId) updateCalculations();
 });
 
 // AUTENTICACIÓN
