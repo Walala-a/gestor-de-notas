@@ -54,26 +54,22 @@ auth.onAuthStateChanged(async (user) => {
         appContainer.classList.remove('hidden');
         
         try {
-            // Intenta obtener datos de Firestore
             const docRef = db.collection('grades_data').doc(user.uid);
             const docSnap = await docRef.get();
-            
             if (docSnap.exists) {
                 appData = docSnap.data();
             } else {
                 appData = { subjects: {} };
-                await saveData(); // Crear documento inicial
+                await saveData(); 
             }
         } catch (error) {
-            console.error("🔥 Error de Firestore: ", error);
-            alert("No se pudo conectar a la base de datos.\n\nPosibles causas:\n1. No has creado la 'Firestore Database' en la consola de Firebase.\n2. La base de datos no está en 'Modo de prueba'.\n\nRevisa la consola (F12) para más detalles.");
-            appData = { subjects: {} }; // Carga un perfil vacío para que no se congele
+            console.error("Error al cargar:", error);
+            appData = { subjects: {} };
         }
-
         renderSidebar();
         document.getElementById('calculator-panel').classList.add('hidden');
         document.getElementById('subject-actions').classList.add('hidden');
-        document.getElementById('current-subject-title').textContent = "Selecciona un ramo";
+        document.getElementById('current-subject-title').textContent = "Selecciona un ramo 🌸";
     } else {
         currentUser = null;
         authContainer.classList.remove('hidden');
@@ -84,7 +80,6 @@ auth.onAuthStateChanged(async (user) => {
     }
 });
 
-// FUNCIÓN DE GUARDADO EN LA NUBE
 async function saveData() { 
     if(currentUser) {
         try {
@@ -131,7 +126,7 @@ document.getElementById('delete-subject-btn').addEventListener('click', () => {
         saveData(); renderSidebar();
         document.getElementById('calculator-panel').classList.add('hidden');
         document.getElementById('subject-actions').classList.add('hidden');
-        document.getElementById('current-subject-title').textContent = "Selecciona un ramo";
+        document.getElementById('current-subject-title').textContent = "Selecciona un ramo 🌸";
     }
 });
 
@@ -144,7 +139,7 @@ function renderSidebar() {
     sortedYears.forEach(year => {
         const yearHeader = document.createElement('h3');
         yearHeader.textContent = `Año ${year}`;
-        yearHeader.style.cssText = 'margin-top: 15px; font-size: 12px; color: #95A5A6; text-transform: uppercase;';
+        yearHeader.style.cssText = 'margin-top: 15px; font-size: 12px; color: var(--accent); text-transform: uppercase; font-weight: 700;';
         list.appendChild(yearHeader);
         years[year].forEach(sub => {
             const div = document.createElement('div');
@@ -213,7 +208,7 @@ function renderItemsList(module, type) {
         row.className = 'evaluation-row';
         let gradeClass = item.grade !== "" ? (parseFloat(item.grade) >= PASSING_GRADE ? 'input-pass' : 'input-fail') : '';
         const weightInput = type === 'cert' ? `<input type="number" placeholder="%" value="${item.weight}" onchange="updateItem('${module}', '${type}', ${index}, 'weight', this.value)">` : '';
-        row.innerHTML = `<input type="text" value="${item.name}" placeholder="Nombre" onchange="updateItem('${module}', '${type}', ${index}, 'name', this.value)"><input type="number" class="${gradeClass}" placeholder="Nota (0 si vacío)" value="${item.grade}" onchange="updateItem('${module}', '${type}', ${index}, 'grade', this.value)">${weightInput}`;
+        row.innerHTML = `<input type="text" value="${item.name}" placeholder="Nombre" onchange="updateItem('${module}', '${type}', ${index}, 'name', this.value)"><input type="number" class="${gradeClass}" placeholder="Nota" value="${item.grade}" onchange="updateItem('${module}', '${type}', ${index}, 'grade', this.value)">${weightInput}`;
         container.appendChild(row);
     });
 }
@@ -228,7 +223,7 @@ function setColoredText(elementId, value, isNeeded = false) {
     const el = document.getElementById(elementId);
     if (value === '--' || isNaN(value)) { el.textContent = '--'; el.className = ''; return; }
     if (isNeeded) {
-        if (value <= 0) { el.textContent = "¡Aprobado!"; el.className = 'text-pass'; }
+        if (value <= 0) { el.textContent = "¡Aprobado! 🎉"; el.className = 'text-pass'; }
         else if (value > 100) { el.textContent = "Imposible (" + value.toFixed(1) + ")"; el.className = 'text-fail'; }
         else { el.textContent = value.toFixed(1); el.className = 'text-fail'; }
     } else {
@@ -285,7 +280,7 @@ function updateCalculations() {
         setColoredText('needed-grade', notaNecesaria, true);
     } else {
         const elNeeded = document.getElementById('needed-grade');
-        elNeeded.textContent = currentGlobalAvg >= PASSING_GRADE ? "¡Aprobado!" : "Reprobado";
+        elNeeded.textContent = currentGlobalAvg >= PASSING_GRADE ? "¡Aprobado! 🎉" : "Reprobado 😿";
         elNeeded.className = currentGlobalAvg >= PASSING_GRADE ? "text-pass" : "text-fail";
     }
 }
