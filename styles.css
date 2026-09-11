@@ -1,10 +1,10 @@
 :root {
-    --primary: #ffb7b2; /* Rosa pastel */
-    --secondary: #ffdac1; /* Durazno pastel */
-    --accent: #ff9ceee6; /* Rosa vibrante kawaii */
-    --bg-color: #fff0f5; /* Lavanda clarito */
+    --primary: #ffb7b2; 
+    --secondary: #ffdac1; 
+    --accent: #ff9ceee6; 
+    --bg-color: #fff0f5; 
     --panel-bg: rgba(255, 255, 255, 0.9);
-    --text: #705d76; /* Morado grisáceo suave */
+    --text: #705d76; 
     --border: #f4d3eb;
     --input-bg: #ffffff;
     --result-text: #ff8b94;
@@ -12,10 +12,10 @@
 }
 
 body.dark-mode {
-    --primary: #3b2859; /* Morado oscuro kawaii */
-    --secondary: #7597de; /* Azul pastel noche */
+    --primary: #3b2859; 
+    --secondary: #7597de; 
     --accent: #ff9a9e;
-    --bg-color: #1a0b2e; /* Noche estrellada */
+    --bg-color: #1a0b2e; 
     --panel-bg: rgba(43, 16, 85, 0.9);
     --text: #e0d8ea;
     --border: #563d7c;
@@ -24,83 +24,51 @@ body.dark-mode {
     --shadow-color: rgba(0, 0, 0, 0.4);
 }
 
-* { 
-    box-sizing: border-box; 
-    margin: 0; 
-    padding: 0; 
-    font-family: 'Quicksand', sans-serif; /* Fuente kawaii */
-}
+* { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Quicksand', sans-serif; }
 
 body { 
-    display: flex; 
-    height: 100vh; 
+    display: flex; height: 100vh; 
     background: linear-gradient(135deg, var(--bg-color) 0%, #fecfef 100%);
-    color: var(--text); 
-    overflow: hidden; 
-    transition: background-color 0.3s, color 0.3s; 
+    color: var(--text); overflow: hidden; transition: background-color 0.3s, color 0.3s; 
 }
 
-body.dark-mode {
-    background: linear-gradient(135deg, var(--bg-color) 0%, #2b1055 100%);
-}
+body.dark-mode { background: linear-gradient(135deg, var(--bg-color) 0%, #2b1055 100%); }
 
-/* =========================================
-   PANTALLA DE AUTENTICACIÓN KAWAII
-========================================= */
+/* AUTENTICACIÓN KAWAII */
 .auth-wrapper { 
     display: flex; justify-content: center; align-items: center; 
-    height: 100vh; width: 100vw; 
-    background: inherit;
+    height: 100vh; width: 100vw; background: inherit;
     position: absolute; top: 0; left: 0; z-index: 9999;
 }
-
 .auth-card { 
     background: var(--panel-bg); padding: 40px; border-radius: 30px; 
     box-shadow: 0 10px 30px var(--shadow-color); width: 90%; max-width: 350px; 
-    text-align: center; border: 3px solid rgba(255, 255, 255, 0.3);
-    backdrop-filter: blur(10px);
+    text-align: center; border: 3px solid rgba(255, 255, 255, 0.3); backdrop-filter: blur(10px);
 }
-
 .auth-card h2 { margin-bottom: 5px; color: var(--result-text); font-size: 28px; font-weight: 700;}
 .auth-card p { margin-bottom: 25px; color: var(--text); font-size: 15px; font-weight: 600; }
-
 .auth-card input { 
     width: 100%; margin-bottom: 15px; padding: 15px; font-size: 15px; 
     border-radius: 20px; border: 2px solid var(--border);
-    background-color: var(--input-bg); color: var(--text); outline: none; transition: 0.3s;
-    font-weight: 600;
+    background-color: var(--input-bg); color: var(--text); outline: none; transition: 0.3s; font-weight: 600;
 }
 .auth-card input:focus { border-color: var(--result-text); }
-
 .auth-card button { 
     width: 100%; margin-bottom: 12px; padding: 15px; font-size: 16px; 
-    font-weight: 700; border-radius: 25px; cursor: pointer;
-    transition: transform 0.2s, background 0.3s, box-shadow 0.2s;
+    font-weight: 700; border-radius: 25px; cursor: pointer; transition: transform 0.2s, background 0.3s, box-shadow 0.2s;
 }
 .auth-card button:hover { transform: translateY(-3px); }
-
-.auth-btn-primary { 
-    background-color: var(--primary); color: white; border: none; 
-    box-shadow: 0 4px 15px var(--shadow-color);
-}
+.auth-btn-primary { background-color: var(--primary); color: white; border: none; box-shadow: 0 4px 15px var(--shadow-color); }
 .auth-btn-primary:hover { filter: brightness(1.1); }
-
-.auth-btn-secondary { 
-    background-color: transparent; color: var(--result-text); border: 2px solid var(--result-text); 
-}
+.auth-btn-secondary { background-color: transparent; color: var(--result-text); border: 2px solid var(--result-text); }
 .auth-btn-secondary:hover { background-color: var(--input-bg); }
 .error-msg { color: #ff6b6b; font-size: 13px; font-weight: bold; margin-top: 10px; min-height: 15px; }
 
-
-/* =========================================
-   SIDEBAR (MENÚ LATERAL) KAWAII
-========================================= */
+/* SIDEBAR KAWAII */
 .sidebar { 
-    width: 280px; 
-    background: linear-gradient(to bottom, var(--primary), var(--accent));
+    width: 280px; background: linear-gradient(to bottom, var(--primary), var(--accent));
     color: white; display: flex; flex-direction: column; 
-    transition: transform 0.3s ease; z-index: 1000; 
-    border-radius: 0 30px 30px 0;
+    transition: transform 0.3s ease; z-index: 1000; border-radius: 0 30px 30px 0;
     box-shadow: 5px 0 20px var(--shadow-color);
 }
 body.dark-mode .sidebar { background: linear-gradient(to bottom, var(--primary), #4a2b7a); }
@@ -115,9 +83,7 @@ body.dark-mode .sidebar { background: linear-gradient(to bottom, var(--primary),
 }
 .subject-item:hover, .subject-item.active { background: rgba(255,255,255,0.4); transform: translateX(5px); }
 
-/* =========================================
-   BOTONES GENERALES
-========================================= */
+/* BOTONES GENERALES */
 button { cursor: pointer; border: none; border-radius: 15px; font-size: 14px; font-weight: 600; padding: 12px 18px; transition: 0.2s; }
 .primary-btn { background-color: rgba(255,255,255,0.3); color: white; width: 100%; border: 2px solid white;}
 .primary-btn:hover { background-color: rgba(255,255,255,0.5); transform: translateY(-2px); }
@@ -128,17 +94,13 @@ button { cursor: pointer; border: none; border-radius: 15px; font-size: 14px; fo
 .action-btn { font-size: 20px; padding: 5px; border-radius: 10px; }
 .action-btn:hover { background-color: var(--border); }
 
-
-/* =========================================
-   CONTENIDO PRINCIPAL
-========================================= */
+/* CONTENIDO PRINCIPAL */
 .main-content { flex: 1; display: flex; flex-direction: column; overflow-y: auto; }
 header { 
     background: var(--panel-bg); padding: 20px 30px; display: flex; 
     justify-content: space-between; align-items: center; 
     box-shadow: 0 5px 15px var(--shadow-color);
-    border-radius: 0 0 20px 20px; margin-bottom: 10px;
-    backdrop-filter: blur(10px);
+    border-radius: 0 0 20px 20px; margin-bottom: 10px; backdrop-filter: blur(10px);
 }
 .calculator-panel { padding: 30px; max-width: 1200px; margin: 0 auto; width: 100%; }
 .hidden { display: none !important; }
@@ -153,13 +115,12 @@ header {
 body.dark-mode .result-card { border-color: var(--border); }
 .result-card h3 { font-size: 15px; color: var(--text); margin-bottom: 10px; font-weight: 700; opacity: 0.8;}
 .result-card p { font-size: 36px; font-weight: 700; color: var(--result-text); }
-
 .text-pass { color: #5bc57a !important; } 
 .text-fail { color: #ff6b6b !important; }
 .input-pass { color: #5bc57a !important; font-weight: 700; } 
 .input-fail { color: #ff6b6b !important; font-weight: 700; }
 
-/* BARRA DE CONFIGURACIÓN Y TOGGLE */
+/* CONFIG & TOGGLE */
 .config-bar { 
     display: flex; gap: 20px; margin-bottom: 25px; background: var(--panel-bg); 
     padding: 20px; border-radius: 20px; align-items: center; 
@@ -175,7 +136,7 @@ input:checked + .slider { background-color: var(--result-text); }
 input:checked + .slider:before { transform: translateX(28px); }
 .slider.round { border-radius: 34px; } .slider.round:before { border-radius: 50%; }
 
-/* INPUTS DE NOTAS */
+/* INPUTS */
 input { 
     background-color: var(--input-bg); color: var(--text); 
     border: 2px solid var(--border); border-radius: 12px; padding: 10px; font-weight: 600; outline:none;
@@ -184,7 +145,7 @@ input:focus { border-color: var(--result-text); }
 .weight-input { width: 70px; text-align: center; }
 .count-input { width: 60px; text-align: center; }
 
-/* GRILLA DE MÓDULOS */
+/* GRILLAS */
 .grades-grid { display: flex; gap: 25px; flex-wrap: wrap; }
 .module { 
     flex: 1; min-width: 350px; background: var(--panel-bg); padding: 25px; 
@@ -194,12 +155,10 @@ input:focus { border-color: var(--result-text); }
 body.dark-mode .module { border-color: var(--border); }
 .module h2 { margin-bottom: 5px; font-size: 22px; color: var(--result-text); font-weight: 700;}
 .module-subtitle { font-size: 15px; color: var(--text); font-weight: 700; margin-bottom: 10px; opacity: 0.8;}
-
 .sub-module { border-top: 3px dashed var(--border); margin-top: 20px; padding-top: 20px; }
 .sub-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; }
 .sub-header h3 { font-size: 17px; color: var(--text); font-weight: 700;}
 .sub-header-controls { display: flex; gap: 15px; align-items: center; font-size: 14px; font-weight: 600;}
-
 .evaluation-row { display: flex; gap: 12px; margin-bottom: 10px; align-items: center; }
 .evaluation-row input[type="text"] { flex: 2; border-radius: 15px; }
 .evaluation-row input[type="number"] { flex: 1; min-width: 70px; border-radius: 15px; }
