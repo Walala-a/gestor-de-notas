@@ -8,7 +8,7 @@ const firebaseConfig = {
   appId: "1:275919511835:web:f2750b9b3a4adca3b7f3be"
 };
 
-// Inicializar Firebase (Versión 8 Compat)
+// Inicializar Firebase
 firebase.initializeApp(firebaseConfig);
 const auth = firebase.auth();
 const db = firebase.firestore();
@@ -36,20 +36,20 @@ const passInput = document.getElementById('password-input');
 const errorMsg = document.getElementById('auth-error');
 
 document.getElementById('login-btn').addEventListener('click', () => {
-    auth.signInWithEmailAndPassword(emailInput.value, passInput.value).catch(error => errorMsg.textContent = "Error: " + error.message);
+    auth.signInWithEmailAndPassword(emailInput.value, passInput.value).catch(error => errorMsg.textContent = "Uy, hubo un error 😥: " + error.message);
 });
 
 document.getElementById('register-btn').addEventListener('click', () => {
-    auth.createUserWithEmailAndPassword(emailInput.value, passInput.value).catch(error => errorMsg.textContent = "Error: " + error.message);
+    auth.createUserWithEmailAndPassword(emailInput.value, passInput.value).catch(error => errorMsg.textContent = "Uy, hubo un error 😥: " + error.message);
 });
 
 document.getElementById('logout-btn').addEventListener('click', () => auth.signOut());
 
-// ESTADO DE SESIÓN Y CARGA DE DATOS DE LA NUBE
+// ESTADO DE SESIÓN Y CARGA
 auth.onAuthStateChanged(async (user) => {
     if (user) {
         currentUser = user;
-        document.getElementById('user-email').textContent = user.email;
+        document.getElementById('user-email').textContent = "👤 " + user.email;
         authContainer.classList.add('hidden');
         appContainer.classList.remove('hidden');
         
@@ -63,9 +63,11 @@ auth.onAuthStateChanged(async (user) => {
                 await saveData(); 
             }
         } catch (error) {
-            console.error("Error al cargar:", error);
+            console.error("🔥 Error: ", error);
+            alert("¡Oh no! 😥 No nos pudimos conectar a la base de datos.");
             appData = { subjects: {} };
         }
+
         renderSidebar();
         document.getElementById('calculator-panel').classList.add('hidden');
         document.getElementById('subject-actions').classList.add('hidden');
@@ -82,22 +84,19 @@ auth.onAuthStateChanged(async (user) => {
 
 async function saveData() { 
     if(currentUser) {
-        try {
-            await db.collection('grades_data').doc(currentUser.uid).set(appData);
-        } catch(error) {
-            console.error("Error al guardar en la nube: ", error);
-        }
+        try { await db.collection('grades_data').doc(currentUser.uid).set(appData); } 
+        catch(error) { console.error("Error al guardar: ", error); }
     }
 }
 
-// NAVEGACIÓN Y CRUD DE RAMOS
+// NAVEGACIÓN Y CRUD
 document.getElementById('menu-btn').addEventListener('click', () => document.getElementById('sidebar').classList.remove('closed'));
 document.getElementById('close-btn').addEventListener('click', () => document.getElementById('sidebar').classList.add('closed'));
 
 document.getElementById('add-subject-btn').addEventListener('click', () => {
-    const name = prompt("Nombre del ramo (Ej. MAT-071):");
+    const name = prompt("Nombre del ramo (Ej. MAT-071) ✨:");
     if (!name) return;
-    const year = prompt("Año Académico (Ej. 2026):") || new Date().getFullYear().toString();
+    const year = prompt("Año Académico (Ej. 2026) 📅:") || new Date().getFullYear().toString();
     const newId = Date.now().toString();
     appData.subjects[newId] = {
         id: newId, year, name, hasLab: false, labWeight: 20,
@@ -110,17 +109,17 @@ document.getElementById('add-subject-btn').addEventListener('click', () => {
 document.getElementById('edit-subject-btn').addEventListener('click', () => {
     if(!currentSubjectId) return;
     const subject = appData.subjects[currentSubjectId];
-    const newName = prompt("Editar nombre del ramo:", subject.name);
+    const newName = prompt("Editar nombre del ramo ✏️:", subject.name);
     if (newName !== null && newName.trim() !== "") subject.name = newName.trim();
-    const newYear = prompt("Editar Año Académico:", subject.year);
+    const newYear = prompt("Editar Año Académico 📅:", subject.year);
     if (newYear !== null && newYear.trim() !== "") subject.year = newYear.trim();
-    saveData(); renderSidebar(); document.getElementById('current-subject-title').textContent = subject.name;
+    saveData(); renderSidebar(); document.getElementById('current-subject-title').textContent = subject.name + " 🌸";
 });
 
 document.getElementById('delete-subject-btn').addEventListener('click', () => {
     if(!currentSubjectId) return;
     const subject = appData.subjects[currentSubjectId];
-    if(confirm(`¿Eliminar permanentemente el ramo "${subject.name}"?`)) {
+    if(confirm(`¿Estás segur@ de eliminar "${subject.name}"? 😥`)) {
         delete appData.subjects[currentSubjectId];
         currentSubjectId = null;
         saveData(); renderSidebar();
@@ -138,13 +137,13 @@ function renderSidebar() {
     const sortedYears = Object.keys(years).sort((a, b) => b.localeCompare(a));
     sortedYears.forEach(year => {
         const yearHeader = document.createElement('h3');
-        yearHeader.textContent = `Año ${year}`;
-        yearHeader.style.cssText = 'margin-top: 15px; font-size: 12px; color: var(--accent); text-transform: uppercase; font-weight: 700;';
+        yearHeader.textContent = `📅 Año ${year}`;
+        yearHeader.style.cssText = 'margin-top: 15px; font-size: 13px; color: rgba(255,255,255,0.8); font-weight: 700;';
         list.appendChild(yearHeader);
         years[year].forEach(sub => {
             const div = document.createElement('div');
             div.className = `subject-item ${sub.id === currentSubjectId ? 'active' : ''}`;
-            div.textContent = sub.name;
+            div.textContent = "🎀 " + sub.name;
             div.onclick = () => loadSubject(sub.id);
             list.appendChild(div);
         });
@@ -154,7 +153,7 @@ function renderSidebar() {
 function loadSubject(id) {
     currentSubjectId = id;
     const subject = appData.subjects[id];
-    document.getElementById('current-subject-title').textContent = subject.name;
+    document.getElementById('current-subject-title').textContent = subject.name + " 🌸";
     document.getElementById('calculator-panel').classList.remove('hidden');
     document.getElementById('subject-actions').classList.remove('hidden');
     renderSidebar();
@@ -191,7 +190,7 @@ function loadSubject(id) {
             const subject = appData.subjects[currentSubjectId];
             const listName = type === 'cert' ? 'certamenes' : 'controles';
             const list = subject[module][listName];
-            while (list.length < newCount) list.push({ id: Date.now() + Math.random(), name: type === 'cert' ? `Certamen ${list.length + 1}` : `Control ${list.length + 1}`, grade: "", weight: type === 'cert' ? 0 : undefined });
+            while (list.length < newCount) list.push({ id: Date.now() + Math.random(), name: type === 'cert' ? `Cert. ${list.length + 1}` : `Control ${list.length + 1}`, grade: "", weight: type === 'cert' ? 0 : undefined });
             while (list.length > newCount) list.pop();
             renderItemsList(module, type); updateCalculations(); saveData();
         });
@@ -224,7 +223,7 @@ function setColoredText(elementId, value, isNeeded = false) {
     if (value === '--' || isNaN(value)) { el.textContent = '--'; el.className = ''; return; }
     if (isNeeded) {
         if (value <= 0) { el.textContent = "¡Aprobado! 🎉"; el.className = 'text-pass'; }
-        else if (value > 100) { el.textContent = "Imposible (" + value.toFixed(1) + ")"; el.className = 'text-fail'; }
+        else if (value > 100) { el.textContent = "Imposible 😥 (" + value.toFixed(1) + ")"; el.className = 'text-fail'; }
         else { el.textContent = value.toFixed(1); el.className = 'text-fail'; }
     } else {
         el.textContent = value.toFixed(1); el.className = value >= PASSING_GRADE ? 'text-pass' : 'text-fail';
@@ -280,7 +279,7 @@ function updateCalculations() {
         setColoredText('needed-grade', notaNecesaria, true);
     } else {
         const elNeeded = document.getElementById('needed-grade');
-        elNeeded.textContent = currentGlobalAvg >= PASSING_GRADE ? "¡Aprobado! 🎉" : "Reprobado 😿";
+        elNeeded.textContent = currentGlobalAvg >= PASSING_GRADE ? "¡Aprobado! 🎉" : "Reprobado 😥";
         elNeeded.className = currentGlobalAvg >= PASSING_GRADE ? "text-pass" : "text-fail";
     }
 }
